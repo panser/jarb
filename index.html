@@ -42,13 +42,14 @@
 				<p>It is even possible to map custom exceptions on named constraints.</p>
 
 				<pre><code>@DatabaseConstraint("uk_posts_title")
-public class PostTitleAlreadyExistsException extends UniqueKeyViolationException {
+public class PostTitleAlreadyExistsException
+  extends UniqueKeyViolationException {
   ...
 }</code></pre>
 
 				<p>And the configuration:</p>
 
-				<pre><code>&lt;constraints:translate-exceptions data-source="dataSource" base-package="com.myproject"/&gt;</code></pre>
+				<pre><code>&lt;translate-exceptions data-source="dataSource" base-package="com.myproject"/&gt;</code></pre>
 
 				<a href="#" class="more">Read more...</a>
 				
@@ -66,7 +67,7 @@ public class Person {
 				
 				<p>With the following configuration all required beans are registered:</p>
 
-				<pre><code>&lt;constraints:enable-metadata entity-manager-factory="entityManagerFactory"/&gt;</code></pre>
+				<pre><code>&lt;enable-metadata entity-manager-factory="entityManagerFactory"/&gt;</code></pre>
 
 				<h3>Database migration</h3>
 				<h3>Data insertion</h3>
