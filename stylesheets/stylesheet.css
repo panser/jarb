@@ -67,7 +67,7 @@ a:hover {
 header {
   width: 100%;
   text-shadow: none;
-  background-color: #2B2A2A;
+  background-color: #3F3F3F;
 }
 
 header h1 {
@@ -81,10 +81,11 @@ header h1 {
 }
 
 header .description {
-  font-size: 34px;
-  color: #d5000d;
+  font-size: 30px;
   display: inline;
   margin-left: 15px;
+  font-weight: normal;
+  font-style: normal;
 }
 
 #container {
