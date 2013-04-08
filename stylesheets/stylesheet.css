@@ -84,6 +84,7 @@ header .description {
   font-weight: normal;
   display: inline;
   margin-left: 15px;
+  text-shadow: 1px 1px #ccc;
 }
 
 #container {
