@@ -140,7 +140,7 @@ a.button {
   color: #303030;
   line-height: 25px;
   font-weight: bold;
-  font-size: 15px;
+  font-size: 13px;
   padding: 12px 8px 12px 8px;
   display: block;
   float: left;
@@ -323,7 +323,7 @@ dl dt {
 
 footer {
   clear: both;
-  font-size: 12px;
+  font-size: 13px;
   color: #aaa;
   text-align: center;
   margin: 15px 5px;
