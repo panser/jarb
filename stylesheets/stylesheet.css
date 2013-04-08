@@ -65,15 +65,18 @@ a:hover {
 }
 
 header {
-  padding-top: 20px;
-  padding-bottom: 10px;
+  padding: 5px 0px 5px 200px;
+  width: 100%;
+  text-shadow: none;
+  background-color: #2B2A2A;
 }
 
 header h1 {
-  font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif; font-weight: 900;
+  font-family: 'Chivo', 'Helvetica Neue', Helvetica, Arial, serif;
+  font-weight: 900;
   letter-spacing: -1px;
   font-size: 48px;
-  color: #303030;
+  color: #fff;
   line-height: 1.2;
 }
 
@@ -84,10 +87,10 @@ header .description {
   font-weight: normal;
   display: inline;
   margin-left: 15px;
-  text-shadow: 1px 1px #ccc;
 }
 
 #container {
+  margin-top: 20px;
   min-height: 595px;
 }
 
