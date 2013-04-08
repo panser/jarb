@@ -112,7 +112,7 @@ header .description {
 }
 
 #side_bar {
-  width: 200px;
+  width: 170px;
   float: right;
 }
 
@@ -122,7 +122,7 @@ header .description {
 }
 
 #main_content {
-  width: 575px;
+  width: 590px;
   float: left;
 }
 
@@ -135,9 +135,9 @@ header .description {
 }
 
 a.button {
-  -moz-border-radius: 30px;
-  -webkit-border-radius: 30px;                     
-  border-radius: 30px;
+  -moz-border-radius: 15px;
+  -webkit-border-radius: 15px;                     
+  border-radius: 15px;
   border-top: solid 1px #cbcbcb;
   border-left: solid 1px #b7b7b7;
   border-right: solid 1px #b7b7b7;
@@ -149,7 +149,7 @@ a.button {
   padding: 12px 8px 12px 8px;
   display: block;
   float: left;
-  width: 179px;
+  width: 150px;
   margin-right: 14px;  
   background: #fdfdfd; /* Old browsers */
   background: -moz-linear-gradient(top,  #fdfdfd 0%, #f2f2f2 100%); /* FF3.6+ */
@@ -213,7 +213,7 @@ pre {
 
 pre, code {
 	font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal;
-    font-size: 11px;
+    font-size: 12px;
 }
 
 /* COMMON STYLES */
