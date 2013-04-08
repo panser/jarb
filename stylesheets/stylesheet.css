@@ -84,8 +84,7 @@ header .description {
   font-size: 30px;
   display: inline;
   margin-left: 15px;
-  font-weight: normal;
-  font-style: normal;
+  color: #D5000D;
 }
 
 #container {
