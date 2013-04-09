@@ -113,9 +113,10 @@ header .description {
   float: right;
 }
 
-#menu a {
-  color: #6D6D6D;
+#menu ul li {
+  list-style: none;
   font-size: 13px;
+  padding-left: 10px;
 }
 
 #main_content {
