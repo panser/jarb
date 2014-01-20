@@ -31,12 +31,12 @@
 						<li><a href="#">Constraints</a></li>
 						<li><a href="#">Migration</a></li>
 						<li><a href="#">Populator</a></li>
-					<ul>
+					</ul>
 					
 					<p>Blog posts</p>
 					<ul>
 						<li><a href="http://blog.42.nl/articles/recovering-from-database-constraint-violations-in-java">09-04-2013</a></li>
-					<ul>
+					</ul>
 				</nav>
 				
 				<section id="downloads">
@@ -67,8 +67,6 @@ public class PostTitleAlreadyExistsException
 
 				<pre><code>&lt;translate-exceptions data-source="dataSource" base-package="com.myproject"/&gt;</code></pre>
 
-				<a href="#" class="more">Read more...</a>
-				
 				<h3>JSR303 validation on schema</h3>
 				
 				<p>To validate database constraints with JSR303 validation, we often need to duplicate constraint information in both the database and entity class. Duplication is never good, so we made a @DatabaseConstrained annotation that dynamically validates all simple database constraints based on JDBC metadata.</p>
@@ -84,8 +82,6 @@ public class Person {
 				<p>With the following configuration all required beans are registered:</p>
 
 				<pre><code>&lt;enable-metadata entity-manager-factory="entityManagerFactory"/&gt;</code></pre>
-
-				<a href="#" class="more">Read more...</a>
 
 				<h3>Database migration</h3>
 				<h3>Data insertion</h3>
