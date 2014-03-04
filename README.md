@@ -7,18 +7,17 @@ http://www.jarbframework.org
 
 Features
 --------
- * (Database) constraints 
-  * Automate database constraint validation with JSR303
-  * Translate JDBC exceptions into constraint violation exceptions
-   + Full access to constraint violation metadata
+ * Database constraints
+  * Automate database schema validation with JSR303
+  * Translate JDBC driver exceptions into constraint exceptions
+   + Full access to constraint violation information
    + Map custom exceptions to named constraints
-  * Describe bean constraint metadata, with content from JDBC and JSR303
+  * Describe bean constraint metadata, with front-end example
  * Database initialization
   * Automate database migrations on application startup
   * Populate database on application startup
-   + SQL script based (using Spring JDBC)
-   + Excel based
-   + Building blocks: compound, conditional, fail-safe
+   + SQL
+   + Excel
 
 Developers
 ----------
@@ -26,7 +25,7 @@ Developers
  
 License
 -------
- Copyright 2011 42bv (http://www.42.nl)
+ Copyright 2011-2014 42BV (http://www.42.nl)
 
    Licensed under the Apache License, Version 2.0 (the "License");
    you may not use this file except in compliance with the License.
@@ -40,24 +39,24 @@ License
    See the License for the specific language governing permissions and
    limitations under the License.
 
-JSR303 database constraints
----------------------------
+Database constraints
+--------------------
+
+Validation
+----------
 To validate database constraints with JSR303 validation, we often need to
 duplicate constraint information in both the database and entity class.
 Duplication is never good, so we made a @DatabaseConstrained annotation that
 dynamically validates all simple database constraints based on JDBC metadata.
 
-	@DatabaseConstrained @Entity
-	public class Person {
-		@Id @GeneratedValue
-		private Long id;
-		private String name;
-		...
-	}
-
-With the following configuration all required beans are registered:
-
-	<constraints:enable-metadata entity-manager-factory="entityManagerFactory"/>
+    @DatabaseConstrained
+    @Entity
+    public class Person {
+      @Id @GeneratedValue
+      private Long id;
+      private String name;
+      ...
+    }
 
 Database constraint exceptions
 ------------------------------
@@ -75,9 +74,17 @@ It is even possible to map custom exceptions on named constraints.
 		...
 	}
 	
-And the configuration:	
+Configuration
+-------------
 
-	<constraints:translate-exceptions data-source="dataSource" base-package="org.jarbframework.sample"/>
+The XML configuration is as follows:	
+
+	<constraints:enable-constraints data-source="dataSource" base-package="org.jarbframework.sample"/>
+	<constraints:enable-constraints entity-manager-factory="entityManagerFactory" base-package="org.jarbframework.sample"/>
+
+We also support Java configuration:
+
+	@EnableDatabaseConstraints(basePackage = "org.jarbframework.sample")
 
 Database migrations (schema)
 ----------------------------
@@ -88,54 +95,43 @@ In the below example we use Liquibase to perform database migrations, by
 default it will look for a 'src/main/db/changelog.groovy' file.
 
 
-	<bean id="dataSource" class="org.jarbframework.migrations.MigratingDataSource">
-	    <property name="delegate">
-			<bean class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-			    <property name="driverClassName" value="org.hsqldb.jdbcDriver"/>
-			    <property name="url" value="jdbc:hsqldb:mem:jarb"/>
-			    <property name="username" value="sa"/>
-			    <property name="password" value=""/>
-			</bean>
-		</property>
-	    <property name="migrator">
-	    	<bean class="org.jarbframework.migrations.liquibase.LiquibaseMigrator"/>
-	    </property>
-	</bean>
+	<migrations:migrate data-source="dataSource" path="src/main/db/changelog.groovy"/>
 
+Or an embedded database:
+
+    @Bean
+    public DataSource dataSource() {
+        return new EmbeddedMigratingDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).build();
+    }
 
 Database populating
 -------------------
 Whenever we require data to be inserted during application startup, the
-database updater interface can be used. Below we demonstrate how to
-insert data using an SQL script and Excel file.
+database updater interface can be used. 
 
-	<bean class="org.jarbframework.populator.DatabaseUpdatingListener">
-    	<constructor-arg name="initializer">
-    	   <bean class="org.jarbframework.populator.CompositeDatabaseUpdater">
-    	       <constructor-arg>
-					<list>
-						<bean class="org.jarbframework.populator.SqlResourceDatabaseUpdater">
-							<property name="sqlResource" value="classpath:import.sql"/>
-							<property name="dataSource" ref="dataSource"/>
-						</bean>
-						<bean class="org.jarbframework.populator.excel.ExcelDatabaseUpdater">
-							<property name="excelResource" value="classpath:import.xls"/>
-							<property name="entityManagerFactory" ref="entityManagerFactory"/>
-						</bean>
-						<bean class="org.jarbframework.populator.ClassNameDatabaseUpdater">
-							<constructor-arg value="org.jarbframework.sample.PostUpdater"/>
-						</bean>
-					</list>
-                </constructor-arg>
-			</bean>
-    	</constructor-arg>
-    	<constructor-arg name="destroyer">
-			<bean class="org.jarbframework.populator.SqlResourceDatabaseUpdater">
-			    <property name="sqlResource" value="classpath:clean.sql"/>
-			    <property name="dataSource" ref="dataSource"/>
-			</bean>
-    	</constructor-arg>
+Below we demonstrate how to run an insert script at startup:
+
+    <populator:populate initializer="populator"/>
+    
+    <bean id="populator" class="org.jarbframework.populator.SqlDatabasePopulator">
+        <constructor-arg ref="dataSource"/>
+        <constructor-arg value="classpath:import.sql"/>
     </bean>
+
+For Java configurations we provide a builder:
+
+    @Bean
+    public PopulateApplicationListener populateAppliationListener() {
+        return new PopulateApplicationListenerBuilder()
+                        .initializer()
+                            .add(new SqlDatabasePopulator(dataSource, new ClassPathResource("import.sql")))
+                            .add(new ExcelDatabasePopulator(entityManagerFactory, new ClassPathResource("import.xls")))
+                            .add(postPopulator())
+                            .done()
+                        .destroyer()
+                            .add(new SqlDatabasePopulator(dataSource, new ClassPathResource("clean.sql")))
+                   .build();
+    }
 
 Components
 ----------
@@ -144,8 +140,4 @@ Components
  * populator (populate the database with data on startup, SQL script implementation and building blocks)
  * populator-excel (excel driven database populator)
  * utils (common utility library, used by other components)
-
- Deployment
- ----------
- mvn deploy -DaltDeploymentRepository=repository.42.nl::default::https://repository.42.nl/content/repositories/thirdparty
- 
+ * sample (demonstrates all above described functionality in a simple project)
