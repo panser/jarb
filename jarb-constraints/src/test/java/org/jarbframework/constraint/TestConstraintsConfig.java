@@ -49,7 +49,7 @@ public class TestConstraintsConfig {
         Map<String, Object> jpaProperties = new HashMap<>();
         jpaProperties.put("hibernate.ejb.naming_strategy", ConventionNamingStrategy.class.getName());
         jpaProperties.put("hibernate.dialect", hibernateDialect);
-        jpaProperties.put("javax.validation.validation.factory", validator());
+        jpaProperties.put("javax.persistence.validation.factory", validator());
 
         entityManagerFactoryBean.setJpaPropertyMap(jpaProperties);
         return entityManagerFactoryBean;
