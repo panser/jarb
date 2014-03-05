@@ -5,6 +5,11 @@ JaRB aims to improve database usage in Java enterprise applications.
 
 http://www.jarbframework.org
 
+Warning
+----------
+This branch currently is not a release ready version as it requires groovy-liquibase-dsl version 1.0.0-SNAPSHOT.
+The project however has not released this SNAPSHOT or stable version.
+
 Features
 --------
  * Database constraints
