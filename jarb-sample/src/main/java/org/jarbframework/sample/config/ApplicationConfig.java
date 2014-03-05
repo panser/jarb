@@ -14,7 +14,7 @@ import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.hibernate.validator.constraints.Email;
 import org.jarbframework.constraint.EnableDatabaseConstraints;
-import org.jarbframework.constraint.EnableDatabaseConstraintsConfigurer;
+import org.jarbframework.constraint.DatabaseConstraintsConfigurer;
 import org.jarbframework.constraint.metadata.BeanConstraintDescriptor;
 import org.jarbframework.constraint.metadata.enhance.AnnotationPropertyTypeEnhancer;
 import org.jarbframework.migrations.EmbeddedMigratingDatabaseBuilder;
@@ -46,8 +46,8 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 @EnableJpaRepositories(basePackages = "org.jarbframework.sample")
 @EnableDatabaseConstraints(basePackage = "org.jarbframework.sample")
 @ComponentScan(basePackages = "org.jarbframework.sample", excludeFilters = { @Filter(Controller.class), @Filter(Configuration.class) })
-public class ApplicationConfig extends EnableDatabaseConstraintsConfigurer {
-
+public class ApplicationConfig extends DatabaseConstraintsConfigurer {
+    
     @Bean
     public DataSource dataSource() {
         return new EmbeddedMigratingDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL).build();
