@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.validation.ConstraintTarget;
 import javax.validation.ConstraintValidator;
 import javax.validation.MessageInterpolator;
 import javax.validation.Payload;
@@ -25,7 +26,7 @@ import javax.validation.metadata.ConstraintDescriptor;
  * @since 24-05-2011
  */
 class ViolationMessageBuilder {
-	
+
     private final MessageInterpolator messageInterpolator;
 
     /**
@@ -119,6 +120,15 @@ class ViolationMessageBuilder {
         public Object getValidatedValue() {
             return value;
         }
+
+        @Override
+        public <T> T unwrap(Class<T> type) {
+            //allow unwrapping into public super types
+            if (type.isAssignableFrom(SimpleInterpolatorContext.class)) {
+                return type.cast(this);
+            }
+            throw new UnsupportedOperationException();
+        }
     }
 
     /**
@@ -166,6 +176,16 @@ class ViolationMessageBuilder {
         @Override
         public boolean isReportAsSingleViolation() {
             return false;
+        }
+
+        @Override
+        public String getMessageTemplate() {
+            return "";
+        }
+
+        @Override
+        public ConstraintTarget getValidationAppliesTo() {
+            return null;
         }
 
     }

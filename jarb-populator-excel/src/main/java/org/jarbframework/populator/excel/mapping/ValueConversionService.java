@@ -1,7 +1,7 @@
 package org.jarbframework.populator.excel.mapping;
 
 import org.springframework.core.convert.ConversionFailedException;
-import org.springframework.core.convert.support.ConversionServiceFactory;
+import org.springframework.core.convert.support.DefaultConversionService;
 import org.springframework.core.convert.support.GenericConversionService;
 
 /**
@@ -17,7 +17,7 @@ public class ValueConversionService {
     }
 
     public static ValueConversionService defaultConversions() {
-        GenericConversionService genericConversionService = ConversionServiceFactory.createDefaultConversionService();
+        GenericConversionService genericConversionService = new DefaultConversionService();
         ValueConversionService conversionService = new ValueConversionService(genericConversionService);
         return conversionService.registerDefaultConverters();
     }

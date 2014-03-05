@@ -5,7 +5,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.ejb.HibernateEntityManagerFactory;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.internal.StatelessSessionImpl;
 import org.jarbframework.utils.orm.hibernate.StatelessSessionFactoryBean.StatelessSessionSynchronization;
 import org.junit.Assert;
