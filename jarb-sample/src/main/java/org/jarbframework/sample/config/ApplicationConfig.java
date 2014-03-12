@@ -13,8 +13,8 @@ import javax.validation.ValidatorFactory;
 import org.hibernate.dialect.HSQLDialect;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.hibernate.validator.constraints.Email;
-import org.jarbframework.constraint.EnableDatabaseConstraints;
 import org.jarbframework.constraint.DatabaseConstraintsConfigurer;
+import org.jarbframework.constraint.EnableDatabaseConstraints;
 import org.jarbframework.constraint.metadata.BeanConstraintDescriptor;
 import org.jarbframework.constraint.metadata.enhance.AnnotationPropertyTypeEnhancer;
 import org.jarbframework.migrations.EmbeddedMigratingDatabaseBuilder;
@@ -59,8 +59,8 @@ public class ApplicationConfig extends DatabaseConstraintsConfigurer {
         entityManagerFactoryBean.setDataSource(dataSource());
         entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
         entityManagerFactoryBean.setPackagesToScan("org.jarbframework.sample");
-
-        Map<String, Object> jpaProperties = new HashMap<>();
+        
+        Map<String, Object> jpaProperties = new HashMap<String, Object>();
         jpaProperties.put("hibernate.ejb.naming_strategy", ConventionNamingStrategy.class.getName());
         jpaProperties.put("hibernate.dialect", HSQLDialect.class.getName());
         jpaProperties.put("hibernate.hbm2ddl.auto", "validate");

@@ -44,12 +44,12 @@ public class DatabaseConstraintsConfiguration implements ImportAware, Initializi
     private static final String BASE_PACKAGE_REF = "basePackage";
     private static final String DATA_SOURCE_REF = "dataSource";
     private static final String ENTITY_MANAGER_FACTORY_REF = "entityManagerFactory";
-    private static final String TRANSLATE_ANNOTATION_REF = "translate";
+    private static final String TRANSLATE_ANNOTATION_REF = "translateAnnotation";
 
     private Map<String, Object> attributes;
     
     @Autowired(required = false)
-    private Set<DatabaseConstraintsConfigurer> configurers = new HashSet<>();
+    private Set<DatabaseConstraintsConfigurer> configurers = new HashSet<DatabaseConstraintsConfigurer>();
 
     @Autowired
     private ApplicationContext applicationContext;

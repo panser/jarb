@@ -45,8 +45,8 @@ public class TestConstraintsConfig {
         entityManagerFactoryBean.setDataSource(dataSource);
         entityManagerFactoryBean.setPersistenceProvider(new HibernatePersistenceProvider());
         entityManagerFactoryBean.setPackagesToScan("org.jarbframework.constraint");
-
-        Map<String, Object> jpaProperties = new HashMap<>();
+        
+        Map<String, Object> jpaProperties = new HashMap<String, Object>();
         jpaProperties.put("hibernate.ejb.naming_strategy", ConventionNamingStrategy.class.getName());
         jpaProperties.put("hibernate.dialect", hibernateDialect);
         jpaProperties.put("javax.persistence.validation.factory", validator());
