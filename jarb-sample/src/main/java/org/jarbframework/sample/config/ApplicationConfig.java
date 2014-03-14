@@ -6,11 +6,11 @@ package org.jarbframework.sample.config;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 import javax.validation.ValidatorFactory;
 
 import org.hibernate.dialect.HSQLDialect;
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.hibernate.jpa.HibernatePersistenceProvider;
 import org.hibernate.validator.constraints.Email;
 import org.jarbframework.constraint.DatabaseConstraintsConfigurer;
@@ -105,7 +105,7 @@ public class ApplicationConfig extends DatabaseConstraintsConfigurer {
         private DataSource dataSource;
         
         @Autowired
-        private EntityManagerFactory entityManagerFactory;
+        private HibernateEntityManagerFactory entityManagerFactory;
         
         @Bean
         public PopulateApplicationListener populateAppliationListener() {

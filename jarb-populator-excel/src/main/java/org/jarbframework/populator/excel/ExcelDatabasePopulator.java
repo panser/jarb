@@ -1,13 +1,15 @@
 package org.jarbframework.populator.excel;
 
-import static org.jarbframework.populator.excel.mapping.ValueConversionService.defaultConversions;
-
 import java.io.IOException;
+import java.util.List;
 
-import javax.persistence.EntityManagerFactory;
-
+import org.hibernate.jpa.HibernateEntityManagerFactory;
 import org.jarbframework.populator.DatabasePopulator;
-import org.jarbframework.populator.excel.mapping.ValueConversionService;
+import org.jarbframework.populator.excel.entity.JpaEntityWriter;
+import org.jarbframework.populator.excel.metadata.EntityMetadataRegistry;
+import org.jarbframework.populator.excel.metadata.HibernateJpaEntityMetadataGenerator;
+import org.jarbframework.populator.excel.workbook.Workbook;
+import org.jarbframework.populator.excel.workbook.reader.PoiWorkbookParser;
 import org.springframework.core.io.Resource;
 import org.springframework.util.Assert;
 
@@ -19,15 +21,11 @@ import org.springframework.util.Assert;
  */
 public class ExcelDatabasePopulator implements DatabasePopulator {
         
-    private final EntityManagerFactory entityManagerFactory;
+    private final HibernateEntityManagerFactory entityManagerFactory;
     
     private final Resource resource;
     
-    private ValueConversionService valueConversionService;
-    
-    private boolean strict = true;
-    
-    public ExcelDatabasePopulator(EntityManagerFactory entityManagerFactory, Resource resource) {
+    public ExcelDatabasePopulator(HibernateEntityManagerFactory entityManagerFactory, Resource resource) {
         Assert.state(resource != null, "Excel resource cannot be null");
         Assert.state(entityManagerFactory != null, "Entity manager factory cannot be null");
         
@@ -40,27 +38,14 @@ public class ExcelDatabasePopulator implements DatabasePopulator {
      */
     @Override
     public void populate() {
-        ExcelDataManager excelDataManager = buildExcelDataManager();
-        excelDataManager.setStrict(strict);
-
         try {
-            excelDataManager.load(resource).persist();
+            Workbook workbook = new PoiWorkbookParser().parse(resource.getInputStream());
+            EntityMetadataRegistry metadata = new HibernateJpaEntityMetadataGenerator(entityManagerFactory.getSessionFactory()).generate();
+            List<Object> entities = metadata.mapToEntities(workbook);
+            new JpaEntityWriter(entityManagerFactory).write(entities);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
-    }
-
-    private ExcelDataManager buildExcelDataManager() {
-        ValueConversionService valueConversionService = this.valueConversionService != null ? this.valueConversionService : defaultConversions();
-        return new ExcelDataManagerFactory(entityManagerFactory, valueConversionService).build();
-    }
-
-    public void setValueConversionService(ValueConversionService valueConversionService) {
-        this.valueConversionService = valueConversionService;
-    }
-
-    public void setStrict(boolean strict) {
-        this.strict = strict;
     }
 
 }
