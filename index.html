@@ -26,13 +26,6 @@
 		<div id="wrapper">
 			<aside id="side_bar">
 				<nav id="menu">
-					<!--<p>Documentation</p>-->
-					<!--<ul>-->
-						<!--<li><a href="#">Constraints</a></li>-->
-						<!--<li><a href="#">Migration</a></li>-->
-						<!--<li><a href="#">Populator</a></li>-->
-					<!--</ul>-->
-					
 					<p>Blog posts</p>
 					<ul>
                         <li><a href="https://blog.42.nl/articles/the-idea-behind-jarb-java-repository-bridge/">The idea behind JaRB</a></li>
@@ -57,9 +50,12 @@
 
 				<h3>Translate JDBC exceptions</h3>
 				
-				<p>Whenever a database constraint is violated, the JDBC driver will convert it into a runtime exception. This SQLException is hard to use in the application because all metadata is held inside its message. By using exception translation we can convert the driver exception into a more intuitive exception, e.g. the UniqueKeyAlreadyExistsException. Inside our translated exception we have full access to the constraint violation and any desired metadata.</p>
+				<p>JDBC runtime exceptions will automatically be translated into a usefull exception, giving us access to all
+				desired constraint information. For example, whenever a unique key constraint is violated, we will translate
+				the SQLException into a UniqueKeyAlreadyExistsException, offering us all relevant information.</p>
 
-				<p>It is even possible to map custom exceptions on named constraints.</p>
+				<p>It is even possible to map custom exceptions on named constraints, allowing us to write domain specific
+				and, most importantly, understandable code.</p>
 
 				<pre><code>@NamedConstraint("uk_posts_title")
 public class PostTitleAlreadyExistsException
@@ -67,13 +63,9 @@ public class PostTitleAlreadyExistsException
   ...
 }</code></pre>
 
-				<p>And the configuration:</p>
-
-				<pre><code>&lt;translate-exceptions data-source="dataSource" base-package="com.myproject"/&gt;</code></pre>
-
 				<h3>JSR303 validation on schema</h3>
 				
-				<p>To validate database constraints with JSR303 validation, we often need to duplicate constraint information in both the database and entity class. Duplication is never good, so we made a @DatabaseConstrained annotation that dynamically validates all simple database constraints based on JDBC metadata.</p>
+				<p>To validate database constraints with JSR303, we often need to duplicate constraint information in both the database and entity class. Duplication is never good, so we made a @DatabaseConstrained annotation that dynamically validates all simple database constraints based on JDBC metadata.</p>
 				
 				<pre><code>@DatabaseConstrained @Entity
 public class Person {
@@ -82,22 +74,22 @@ public class Person {
  private String name;
  ...
 }</code></pre>
-				
-				<p>With the following configuration all required beans are registered:</p>
-
-				<pre><code>&lt;enable-metadata entity-manager-factory="entityManagerFactory"/&gt;</code></pre>
 
 				<h3>Database migration</h3>
 				<h3>Data insertion</h3>
 
+				<h2>Configuration</h2>
+
+				<p>JaRB is simple to integrate in your Spring project, just add the following to your context:</p>
+
+				<pre><code>>@EnableDatabaseConstraints(basePackage = "com.myproject")</code></pre>
+
 				<h2>Maven dependencies</h2>
-				
-				<p>To use JaRB in your project, simply add the dependency:</p>
-				
+								
 				<pre><code>&lt;dependency&gt;
   &lt;groupId&gt;org.jarbframework&lt;/groupId&gt;				
   &lt;groupId&gt;jarb-constraints&lt;/groupId&gt;				
-  &lt;version&gt;1.4.0&lt;/version&gt;				
+  &lt;version&gt;2.3.0&lt;/version&gt;				
 &lt;/dependency&gt;</code></pre>
 
 				<p>You can also download the artifact(s) on <a href="http://search.maven.org/#search|ga|1|org.jarbframework">Maven Search</a></p>
