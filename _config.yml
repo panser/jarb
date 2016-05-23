@@ -1,8 +1,2 @@
 gems:
   - jekyll-redirect-from
----
-layout: redirected
-sitemap: false
-permalink: /schema/constraints/jarb-constraints.xsd
-redirect_to: https://raw.githubusercontent.com/42BV/jarb/master/jarb-constraints/src/main/resources/org/jarbframework/constraint/jarb-constraints.xsd
----
